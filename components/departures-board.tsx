@@ -112,9 +112,9 @@ export default function DeparturesBoard() {
   }
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center p-4 overflow-hidden">
-      <div className="w-full max-w-4xl h-full flex flex-col">
-        <h1 className="text-4xl md:text-5xl font-bold text-white text-center mb-4 tracking-wide flex-shrink-0">
+    <div className="h-screen flex items-center justify-center p-4 overflow-hidden">
+      <div className="w-full max-w-4xl flex flex-col">
+        <h1 className="text-4xl md:text-5xl font-bold text-white text-center mb-4 tracking-wide">
           Nächste Tram-Abfahrten
         </h1>
 
@@ -149,7 +149,7 @@ export default function DeparturesBoard() {
         </div>
 
         {/* Abfahrten */}
-        <div className="flex-1 w-full space-y-2 overflow-hidden flex flex-col justify-start">
+        <div className="flex-1 w-full space-y-2 flex flex-col justify-start overflow-hidden">
           {departures.slice(0, 5).map((entry, index) => {
             const entryId = `${entry.category}${entry.number}${entry.stop.departureTimestamp}`
             const isNew = newEntries.has(entryId)
