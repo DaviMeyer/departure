@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 
 const STATION_A = "Zürich, Sportweg"
 const STATION_B = "Zürich, Bernoulli-Häuser"
-const LIMIT = 12 // 12 fetch but ui only 5 -> some get filtered (filteredBoard)
+const LIMIT = 13 // 13 fetch but ui only 5 -> some get filtered (filteredBoard)
 
 export default function DeparturesBoard() {
   const [departures, setDepartures] = useState<DepartureEntry[]>([])
