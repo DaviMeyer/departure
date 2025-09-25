@@ -32,7 +32,7 @@ export default function DeparturesBoard() {
         if (selectedStation === STATION_B) {
           filteredBoard = filteredBoard.filter(entry => {
             if (entry.category !== 'T') return false
-            if (entry.number === '17') return entry.to === 'Zürich, Bahnhofplatz/HB'
+            if (entry.number === '17') return entry.to !== 'Zürich, Werdhölzli'
             if (entry.number === '8') return entry.to === 'Zürich, Klusplatz'
             return false
           })
