@@ -97,26 +97,34 @@ export default function DeparturesBoard() {
 
   if (error) {
     return (
-      <div className="h-screen flex items-center justify-center">
-        <div className="text-red-400 text-xl">{error}</div>
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="text-red-400 text-lg sm:text-xl text-center max-w-md">
+          {error}
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="Container h-screen flex items-center justify-center p-4 overflow-hidden">
-      <div className="w-full max-w-4xl flex flex-col">
-        <h1 className="text-4xl md:text-5xl font-bold text-white text-center mb-4 tracking-wide">
-          Nächste Tram-Abfahrten
-        </h1>
+    <div className="min-h-screen flex items-start sm:items-center justify-center p-3 sm:p-4 md:p-6 overflow-hidden">
+      <div className="w-full max-w-4xl flex flex-col gap-4 sm:gap-6">
+        {/* Header - responsive typography */}
+        <div className="text-center space-y-2 sm:space-y-4 pt-4 sm:pt-0">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-wide leading-tight">
+            Nächste Tram-Abfahrten
+          </h1>
+        </div>
 
-        {/* Slider Switch für Stationswahl */}
-        <div className="mb-4 flex items-center justify-center">
-          <div className="flex items-center gap-3 text-white">
-            <span className={cn("text-sm", selectedStation === STATION_A ? "opacity-100" : "opacity-60")}>
+        {/* Station Toggle - responsive layout */}
+        <div className="flex items-center justify-center px-2">
+          <div className="flex items-center gap-2 sm:gap-3 text-white max-w-full">
+            <span className={cn(
+              "text-xs sm:text-sm truncate max-w-[100px] sm:max-w-none", 
+              selectedStation === STATION_A ? "opacity-100" : "opacity-60"
+            )}>
               {STATION_A}
             </span>
-            <label className="relative inline-flex items-center cursor-pointer select-none">
+            <label className="relative inline-flex items-center cursor-pointer select-none flex-shrink-0">
               <input
                 type="checkbox"
                 className="sr-only peer"
@@ -126,21 +134,24 @@ export default function DeparturesBoard() {
                 }
                 aria-label="Station umschalten"
               />
-              <div className="w-12 h-6 bg-gray-500/40 rounded-full peer-focus:outline-none peer-checked:bg-blue-500 transition-colors duration-300">
+              <div className="w-10 h-5 sm:w-12 sm:h-6 bg-gray-500/40 rounded-full peer-focus:outline-none peer-checked:bg-blue-500 transition-colors duration-300">
                 <div className={cn(
-                  "w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 mt-0.5 ml-0.5",
-                  selectedStation === STATION_B ? "translate-x-6" : "translate-x-0"
+                  "w-4 h-4 sm:w-5 sm:h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 mt-0.5 ml-0.5",
+                  selectedStation === STATION_B ? "translate-x-5 sm:translate-x-6" : "translate-x-0"
                 )} />
               </div>
             </label>
-            <span className={cn("text-sm", selectedStation === STATION_B ? "opacity-100" : "opacity-60")}>
+            <span className={cn(
+              "text-xs sm:text-sm truncate max-w-[100px] sm:max-w-none", 
+              selectedStation === STATION_B ? "opacity-100" : "opacity-60"
+            )}>
               {STATION_B}
             </span>
           </div>
         </div>
 
-        {/* Abfahrten */}
-        <div className="flex-1 w-full space-y-2 flex flex-col justify-start overflow-hidden">
+        {/* Departures - responsive cards */}
+        <div className="flex-1 w-full space-y-2 sm:space-y-3 flex flex-col justify-start overflow-hidden">
           {departures.slice(0, 5).map((entry, index) => {
             const delay = entry.stop.delay ? ` (+${entry.stop.delay} min)` : ""
 
@@ -148,32 +159,32 @@ export default function DeparturesBoard() {
               <Card
                 key={`${entry.category}${entry.number}${entry.stop.departureTimestamp}-${index}`}
                 className={cn(
-                  "bg-white/10 border-l-8 border-l-blue-400 backdrop-blur-sm transition-all duration-500 flex-shrink",
+                  "bg-white/10 border-l-4 sm:border-l-8 border-l-blue-400 backdrop-blur-sm transition-all duration-500 flex-shrink-0",
                   entry.isNew && "bg-blue-400/30 animate-pulse"
                 )}
               >
-                <CardContent className="p-4 md:p-6 text-sm md:text-base transition-all duration-500">
-                  <div className="flex items-center justify-between flex-wrap gap-2 md:gap-4">
-                    <div className="flex items-center gap-4">
+                <CardContent className="p-3 sm:p-4 md:p-6 text-sm md:text-base transition-all duration-500">
+                  <div className="flex items-center justify-between gap-2 sm:gap-4">
+                    <div className="flex items-center gap-2 sm:gap-3 md:gap-4 min-w-0 flex-1">
                       <span
                         className={cn(
-                          "px-3 py-2 rounded-md text-white font-bold text-sm"
+                          "px-2 py-1 sm:px-3 sm:py-2 rounded-md text-white font-bold text-xs sm:text-sm flex-shrink-0"
                         )}
                         style={getLineStyle(entry.category, entry.number)}
                       >
                         {entry.category} {entry.number}
                       </span>
-                      <span className="text-white text-lg font-medium">
+                      <span className="text-white text-sm sm:text-base md:text-lg font-medium truncate">
                         {entry.to}
                       </span>
                     </div>
 
-                    <div className="text-right">
-                      <div className="text-white text-xl font-mono">
+                    <div className="text-right flex-shrink-0">
+                      <div className="text-white text-base sm:text-lg md:text-xl font-mono">
                         {formatTime(entry.stop.departureTimestamp)}
                       </div>
                       {delay && (
-                        <div className="text-yellow-400 text-sm">
+                        <div className="text-yellow-400 text-xs sm:text-sm">
                           {delay}
                         </div>
                       )}
