@@ -53,7 +53,7 @@
 }
 
 html {
-  background: #1a1a1a;
+  background: linear-gradient(to right, #1a1a1a, #333333);
 }
 
 body {
