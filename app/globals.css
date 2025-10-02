@@ -53,11 +53,11 @@
 }
 
 html {
-  background: linear-gradient(to right, #1a1a1a, #333333);
+  background: #1a1a1a;
 }
 
 body {
-  background: linear-gradient(to right, #1a1a1a, #333333);
+  background: #1a1a1a;
   color: hsl(var(--foreground));
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
