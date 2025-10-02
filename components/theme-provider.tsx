@@ -87,6 +87,19 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     root.style.setProperty('--primary', colors.primary)
     root.style.setProperty('--accent', colors.accent)
     root.style.setProperty('--radius', colors.radius)
+    
+    // Derive card and border colors from primary color
+    // Extract hue and saturation from primary color to create harmonious card/border colors
+    const [h, s] = colors.primary.split(' ')
+    if (resolvedTheme === 'dark') {
+      // For dark mode, use a darker version of the primary color for card background
+      root.style.setProperty('--card', `${h} ${s} 12%`)
+      root.style.setProperty('--border', `${h} ${s} 20%`)
+    } else {
+      // For light mode, use a lighter version of the primary color for card background
+      root.style.setProperty('--card', `${h} ${s} 98%`)
+      root.style.setProperty('--border', `${h} ${s} 85%`)
+    }
   }, [resolvedTheme, colors])
 
   const setMode = (newMode: ThemeMode) => {

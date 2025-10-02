@@ -38,7 +38,7 @@ export default function ThemeSettings() {
       {/* Settings Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed top-4 right-4 z-50 p-2 sm:p-3 bg-primary text-primary-foreground rounded-full shadow-lg hover:opacity-90 transition-all duration-200 hover:scale-105"
+        className="fixed top-2 right-2 sm:top-4 sm:right-4 z-40 p-2 sm:p-3 bg-primary text-primary-foreground rounded-full shadow-lg hover:opacity-90 transition-all duration-200 hover:scale-105"
         aria-label="Theme settings"
       >
         <Palette className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -46,8 +46,8 @@ export default function ThemeSettings() {
 
       {/* Settings Modal */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-          <Card className="w-full max-w-md max-h-[90vh] overflow-y-auto bg-card border-border shadow-xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center sm:justify-end p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <Card className="w-full max-w-md max-h-[90vh] overflow-y-auto bg-card border-border shadow-xl sm:mr-0">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
               <CardTitle className="text-xl sm:text-2xl font-bold">Theme Settings</CardTitle>
               <button
