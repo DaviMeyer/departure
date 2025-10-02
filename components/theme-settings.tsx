@@ -25,14 +25,6 @@ export default function ThemeSettings() {
     { name: 'Teal', primary: '173 80% 40%', accent: '173 30% 15%' },
   ]
 
-  const radiusOptions = [
-    { label: 'None', value: '0rem' },
-    { label: 'Small', value: '0.3rem' },
-    { label: 'Medium', value: '0.5rem' },
-    { label: 'Large', value: '0.75rem' },
-    { label: 'Full', value: '1rem' },
-  ]
-
   return (
     <>
       {/* Settings Button */}
@@ -107,53 +99,6 @@ export default function ThemeSettings() {
                       <span className="text-xs font-medium">{preset.name}</span>
                     </button>
                   ))}
-                </div>
-              </div>
-
-              {/* Border Radius */}
-              <div className="space-y-3">
-                <h3 className="text-sm font-semibold text-muted-foreground">Border Radius</h3>
-                <div className="grid grid-cols-5 gap-2">
-                  {radiusOptions.map((option) => (
-                    <button
-                      key={option.value}
-                      onClick={() => setColors({ radius: option.value })}
-                      className={cn(
-                        "flex flex-col items-center gap-2 p-2 sm:p-3 rounded-lg border-2 transition-all duration-200",
-                        colors.radius === option.value
-                          ? "border-primary bg-primary/10"
-                          : "border-border hover:border-primary/50 hover:bg-accent"
-                      )}
-                    >
-                      <div
-                        className="w-6 h-6 bg-primary"
-                        style={{ borderRadius: option.value }}
-                      />
-                      <span className="text-xs font-medium">{option.label}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Preview */}
-              <div className="space-y-3">
-                <h3 className="text-sm font-semibold text-muted-foreground">Preview</h3>
-                <div className="p-4 rounded-lg bg-accent border border-border space-y-2">
-                  <div className="flex items-center gap-2">
-                    <div
-                      className="px-3 py-1 rounded-md text-white font-bold text-sm"
-                      style={{ backgroundColor: `hsl(${colors.primary})` }}
-                    >
-                      T 17
-                    </div>
-                    <span className="text-sm font-medium">Sample Departure</span>
-                  </div>
-                  <div
-                    className="p-3 bg-card border border-border"
-                    style={{ borderRadius: colors.radius }}
-                  >
-                    <p className="text-sm">This is how cards will look with your theme</p>
-                  </div>
                 </div>
               </div>
             </CardContent>
