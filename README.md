@@ -1,5 +1,19 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Features
+
+### 🎨 Theme & Dark/Bright Mode
+The app includes a comprehensive theme system with the following features:
+
+- **Appearance Modes**: Choose between System (auto-detect), Bright, or Dark mode
+- **Accent Colors**: Customize with 6 color presets (Blue, Green, Purple, Orange, Pink, Teal)
+- **Border Radius**: Adjust the roundness of UI elements (5 options from None to Full)
+- **Persistent Settings**: All preferences are saved in localStorage and persist across sessions
+- **Responsive Design**: Works seamlessly on mobile, tablet, and desktop devices
+- **Accessibility**: Proper contrast ratios and ARIA labels for screen readers
+
+To access theme settings, click the palette icon (🎨) in the top-right corner of the app.
+
 ## Getting Started
 
 First, run the development server:

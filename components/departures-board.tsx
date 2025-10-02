@@ -98,7 +98,7 @@ export default function DeparturesBoard() {
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
-        <div className="text-red-400 text-lg sm:text-xl text-center max-w-md">
+        <div className="text-destructive text-lg sm:text-xl text-center max-w-md">
           {error}
         </div>
       </div>
@@ -110,14 +110,14 @@ export default function DeparturesBoard() {
       <div className="w-full max-w-4xl flex flex-col gap-4 sm:gap-6">
         {/* Header - responsive typography */}
         <div className="text-center space-y-2 sm:space-y-4 pt-4 sm:pt-0">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-wide leading-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-wide leading-tight">
             Nächste Tram-Abfahrten
           </h1>
         </div>
 
         {/* Station Toggle - responsive layout */}
         <div className="flex items-center justify-center px-2">
-          <div className="flex items-center gap-2 sm:gap-3 text-white max-w-full">
+          <div className="flex items-center gap-2 sm:gap-3 text-foreground max-w-full">
             <span className={cn(
               "text-xs sm:text-sm truncate max-w-[100px] sm:max-w-none", 
               selectedStation === STATION_A ? "opacity-100" : "opacity-60"
@@ -134,9 +134,9 @@ export default function DeparturesBoard() {
                 }
                 aria-label="Station umschalten"
               />
-              <div className="w-10 h-5 sm:w-12 sm:h-6 bg-gray-500/40 rounded-full peer-focus:outline-none peer-checked:bg-blue-500 transition-colors duration-300">
+              <div className="w-10 h-5 sm:w-12 sm:h-6 bg-muted rounded-full peer-focus:outline-none peer-checked:bg-primary transition-colors duration-300">
                 <div className={cn(
-                  "w-4 h-4 sm:w-5 sm:h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 mt-0.5 ml-0.5",
+                  "w-4 h-4 sm:w-5 sm:h-5 bg-background rounded-full shadow-md transform transition-transform duration-300 mt-0.5 ml-0.5 border-2 border-foreground/20",
                   selectedStation === STATION_B ? "translate-x-5 sm:translate-x-6" : "translate-x-0"
                 )} />
               </div>
@@ -159,8 +159,8 @@ export default function DeparturesBoard() {
               <Card
                 key={`${entry.category}${entry.number}${entry.stop.departureTimestamp}-${index}`}
                 className={cn(
-                  "bg-white/10 border-l-4 sm:border-l-8 border-l-blue-400 backdrop-blur-sm transition-all duration-500 flex-shrink-0",
-                  entry.isNew && "bg-blue-400/30 animate-pulse"
+                  "bg-card/80 border-l-4 sm:border-l-8 border-l-primary backdrop-blur-sm transition-all duration-500 flex-shrink-0",
+                  entry.isNew && "bg-primary/30 animate-pulse"
                 )}
               >
                 <CardContent className="p-3 sm:p-4 md:p-6 text-sm md:text-base transition-all duration-500">
@@ -174,17 +174,17 @@ export default function DeparturesBoard() {
                       >
                         {entry.category} {entry.number}
                       </span>
-                      <span className="text-white text-sm sm:text-base md:text-lg font-medium truncate">
+                      <span className="text-foreground text-sm sm:text-base md:text-lg font-medium truncate">
                         {entry.to}
                       </span>
                     </div>
 
                     <div className="text-right flex-shrink-0">
-                      <div className="text-white text-base sm:text-lg md:text-xl font-mono">
+                      <div className="text-foreground text-base sm:text-lg md:text-xl font-mono">
                         {formatTime(entry.stop.departureTimestamp)}
                       </div>
                       {delay && (
-                        <div className="text-yellow-400 text-xs sm:text-sm">
+                        <div className="text-yellow-400 dark:text-yellow-300 text-xs sm:text-sm">
                           {delay}
                         </div>
                       )}
