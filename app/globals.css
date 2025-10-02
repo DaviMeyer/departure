@@ -52,6 +52,10 @@
   border-color: hsl(var(--border));
 }
 
+html {
+  background: #1a1a1a;
+}
+
 body {
   background: linear-gradient(to right, #1a1a1a, #333333);
   color: hsl(var(--foreground));
