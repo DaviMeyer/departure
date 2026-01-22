@@ -32,8 +32,8 @@ export default function DeparturesBoard() {
         if (selectedStation === STATION_B) {
           filteredBoard = filteredBoard.filter(entry => {
             if (entry.category !== 'T') return false
-            if (entry.number === '17') return entry.to !== 'Zürich, Werdhölzli'
-            if (entry.number === '8') return entry.to === 'Zürich, Klusplatz'
+            if (entry.number === '17') return entry.to !== 'Zürich, Werdhölzli' 
+            if (entry.number === '8') return entry.to === 'Zürich, Kirche Fluntern'
             return false
           })
         }
@@ -79,7 +79,7 @@ export default function DeparturesBoard() {
   const getLineStyle = (category: string, number?: string | number) => {
     const num = String(number ?? '').trim()
     if (category === 'T') {
-      if (num === '4') return { backgroundColor: 'rgb(17, 41, 111)' }
+      if (num === '51') return { backgroundColor: 'rgb(0, 0, 0)' }
       if (num === '17') return { backgroundColor: 'rgb(142, 34, 77)' }
       if (num === '8') return { backgroundColor: 'rgb(138, 181, 31)' }
       return { backgroundColor: '#ef4444' }
