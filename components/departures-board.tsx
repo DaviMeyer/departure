@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { DepartureEntry, DepartureBoard } from '@/types/departure'
 import { cn } from '@/lib/utils'
 import { ChevronDown, History } from 'lucide-react'
+import LoadingScreen from './loading-screen'
 
 const STATION_A = "Zürich, Sportweg"
 const STATION_B = "Zürich, Bernoulli-Häuser"
@@ -38,6 +39,7 @@ export default function DeparturesBoard() {
   const [pastDepartures, setPastDepartures] = useState<DepartureEntry[]>([])
   const [showPast, setShowPast] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [selectedStation, setSelectedStation] = useState<string>(STATION_A)
   const prevDeparturesRef = useRef<DepartureEntry[]>([])
 
@@ -52,6 +54,7 @@ export default function DeparturesBoard() {
 
     const fetchData = async () => {
       try {
+        setIsLoading(true)
         const [upcomingRes, pastRes] = await Promise.all([
           fetch(stationboardUrl(selectedStation, LIMIT)),
           fetch(stationboardUrl(selectedStation, 10, PAST_LOOKBACK_MIN)),
@@ -85,9 +88,13 @@ export default function DeparturesBoard() {
         }
 
         setError(null)
+        setIsLoading(false)
       } catch (err) {
         console.error("Fehler beim Abrufen der Daten:", err)
-        if (!isCancelled) setError("Fehler beim Laden der Daten.")
+        if (!isCancelled) {
+          setError("Fehler beim Laden der Daten.")
+          setIsLoading(false)
+        }
       }
     }
 
@@ -97,6 +104,7 @@ export default function DeparturesBoard() {
       isCancelled = true
       clearInterval(interval)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedStation])
 
   const getLineStyle = (category: string, number?: string | number) => {
@@ -116,6 +124,11 @@ export default function DeparturesBoard() {
   const formatTime = (timestamp: number) => {
     const date = new Date(timestamp * 1000)
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  }
+
+  // Show loading screen only during initial load or when no data is available yet
+  if (isLoading && departures.length === 0) {
+    return <LoadingScreen />
   }
 
   if (error) {
