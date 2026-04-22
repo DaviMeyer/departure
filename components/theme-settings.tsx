@@ -6,23 +6,30 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import { Sun, Moon, Monitor, Palette, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
+const presetColors = [
+  { name: 'Blue', primary: '210 100% 60%', accent: '220 30% 15%' },
+  { name: 'Green', primary: '142 76% 36%', accent: '142 30% 15%' },
+  { name: 'Purple', primary: '262 83% 58%', accent: '262 30% 15%' },
+  { name: 'Orange', primary: '24 95% 53%', accent: '24 30% 15%' },
+  { name: 'Pink', primary: '330 81% 60%', accent: '330 30% 15%' },
+  { name: 'Teal', primary: '173 80% 40%', accent: '173 30% 15%' },
+]
+
 export default function ThemeSettings() {
   const { mode, setMode, colors, setColors } = useTheme()
   const [isOpen, setIsOpen] = useState(false)
+
+  const currentHue = parseInt(colors.primary.split(' ')[0]) || 210
+  const isCustom = !presetColors.some(p => p.primary === colors.primary)
+
+  const handleHueChange = (hue: number) => {
+    setColors({ primary: `${hue} 90% 58%`, accent: `${hue} 30% 15%` })
+  }
 
   const modes = [
     { value: 'system' as const, label: 'System', icon: Monitor },
     { value: 'light' as const, label: 'Bright', icon: Sun },
     { value: 'dark' as const, label: 'Dark', icon: Moon },
-  ]
-
-  const presetColors = [
-    { name: 'Blue', primary: '210 100% 60%', accent: '220 30% 15%' },
-    { name: 'Green', primary: '142 76% 36%', accent: '142 30% 15%' },
-    { name: 'Purple', primary: '262 83% 58%', accent: '262 30% 15%' },
-    { name: 'Orange', primary: '24 95% 53%', accent: '24 30% 15%' },
-    { name: 'Pink', primary: '330 81% 60%', accent: '330 30% 15%' },
-    { name: 'Teal', primary: '173 80% 40%', accent: '173 30% 15%' },
   ]
 
   return (
@@ -99,6 +106,35 @@ export default function ThemeSettings() {
                       <span className="text-xs font-medium">{preset.name}</span>
                     </button>
                   ))}
+                </div>
+              </div>
+
+              {/* Custom Color Slider */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-sm font-semibold text-muted-foreground">Custom Color</h3>
+                  {isCustom && (
+                    <span className="text-xs px-2 py-0.5 rounded-full border border-primary/40 text-primary bg-primary/10">
+                      Aktiv
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center gap-3">
+                  <input
+                    type="range"
+                    min={0}
+                    max={359}
+                    value={currentHue}
+                    onChange={e => handleHueChange(Number(e.target.value))}
+                    className="hue-slider flex-1"
+                  />
+                  <div
+                    className="w-9 h-9 rounded-full flex-shrink-0 border-2 shadow-md transition-all duration-150"
+                    style={{
+                      backgroundColor: `hsl(${currentHue}, 90%, 58%)`,
+                      borderColor: `hsl(${currentHue}, 60%, 40%)`,
+                    }}
+                  />
                 </div>
               </div>
             </CardContent>
