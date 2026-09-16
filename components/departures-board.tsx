@@ -9,8 +9,12 @@ import LoadingScreen from './loading-screen'
 
 const STATION_A = "Zürich, Sportweg"
 const STATION_B = "Zürich, Bernoulli-Häuser"
-const LIMIT = 13 // 13 fetch but ui only 5 -> some get filtered (filteredBoard)
 const PAST_LOOKBACK_MIN = 15
+const DISPLAY_COUNT_OPTIONS = [5, 10, 15, 20] as const
+const DEFAULT_DISPLAY_COUNT = 5
+// Fetch-Limit muss mit der gewünschten Anzeigeanzahl mitwachsen, da applyStationFilter
+// (Station B) Einträge herausfiltert -> ohne Puffer kämen zu wenige Treffer zurück.
+const getFetchLimit = (displayCount: number) => Math.max(13, displayCount * 3)
 
 const entryId = (e: DepartureEntry) =>
   `${e.category}${e.number}${e.stop.departureTimestamp}`
@@ -41,6 +45,7 @@ export default function DeparturesBoard() {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [selectedStation, setSelectedStation] = useState<string>(STATION_A)
+  const [displayCount, setDisplayCount] = useState<number>(DEFAULT_DISPLAY_COUNT)
   const prevDeparturesRef = useRef<DepartureEntry[]>([])
 
   useEffect(() => {
@@ -56,7 +61,7 @@ export default function DeparturesBoard() {
       try {
         setIsLoading(true)
         const [upcomingRes, pastRes] = await Promise.all([
-          fetch(stationboardUrl(selectedStation, LIMIT)),
+          fetch(stationboardUrl(selectedStation, getFetchLimit(displayCount))),
           fetch(stationboardUrl(selectedStation, 10, PAST_LOOKBACK_MIN)),
         ])
         const [upcomingData, pastData]: [DepartureBoard, DepartureBoard] = await Promise.all([
@@ -105,7 +110,7 @@ export default function DeparturesBoard() {
       clearInterval(interval)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedStation])
+  }, [selectedStation, displayCount])
 
   const getLineStyle = (category: string, number?: string | number) => {
     const num = String(number ?? '').trim()
@@ -261,9 +266,31 @@ export default function DeparturesBoard() {
           </div>
         </div>
 
+        {/* Anzahl Abfahrten - Auswahl */}
+        <div className="flex items-center justify-center gap-1.5 sm:gap-2 px-2">
+          <span className="text-xs sm:text-sm text-muted-foreground">Anzeigen:</span>
+          <div className="flex items-center gap-1">
+            {DISPLAY_COUNT_OPTIONS.map(count => (
+              <button
+                key={count}
+                onClick={() => setDisplayCount(count)}
+                className={cn(
+                  "px-2 py-1 sm:px-2.5 sm:py-1 rounded-md text-xs sm:text-sm border transition-colors duration-200 cursor-pointer",
+                  displayCount === count
+                    ? "bg-primary text-primary-foreground border-primary"
+                    : "border-border/50 text-muted-foreground hover:text-foreground hover:border-border hover:bg-muted/20"
+                )}
+                aria-pressed={displayCount === count}
+              >
+                {count}
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Departures - responsive cards */}
         <div className="flex-1 w-full space-y-2 sm:space-y-3 flex flex-col justify-start overflow-hidden">
-          {departures.slice(0, 5).map((entry, index) => {
+          {departures.slice(0, displayCount).map((entry, index) => {
             const delay = entry.stop.delay ? ` (+${entry.stop.delay} min)` : ""
 
             return (
